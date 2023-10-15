@@ -379,11 +379,15 @@ def ajax_clashfilter(request):
     else:
         pass
 
-    if result_list or miRNA_lines:
+    if result_list and miRNA_lines:
         df_output_data = df_clashfilter[df_clashfilter['targetrnaname'].isin(result_list) & df_clashfilter['smallrnaname'].isin(miRNA_lines)]
+    elif result_list:
+        df_output_data = df_clashfilter[df_clashfilter['targetrnaname'].isin(result_list)]
+    elif miRNA_lines:
+        df_output_data = df_clashfilter[df_clashfilter['smallrnaname'].isin(miRNA_lines)]
     else:
         df_output_data = df_clashfilter
-
+    
 
     def get_row(dataframe, column, mode, value):
 

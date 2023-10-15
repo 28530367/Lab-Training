@@ -1,0 +1,123 @@
+.jss94 {
+    font-family: monospace;
+    text-align: left;
+
+}
+.jss94 span:nth-child(10n) {
+    margin-right: 0.5em;
+}
+@media (max-width:959.95px) {
+    .jss94 span:nth-child(20n+1):before {
+    content: "";
+    display: block;
+    }
+    .count50 {
+        display: none
+    }
+}
+@media (min-width:960px) {
+    .jss94 span:nth-child(50n+1):before {
+    content: "";
+    display: block;
+    }
+    .count20 {
+        display: none
+    }
+}
+
+.yellow_background {
+    background-color: yellow;
+}
+.orange_background {
+    background-color: orange;
+}
+.gray_background {
+    background-color: gray;
+}
+
+#toggle-container {
+    width: 200px;
+    padding: 10px;
+    background-color: #f0f0f0f1;
+    border: 1px solid #ccc;
+}
+#unsplicedcontents {
+    display: none;
+    width: 80%;
+}
+#unsplicedsvg {
+    display: none;
+}
+#splicedcontents {
+    display: none;
+    width: 80%;
+}
+#splicedsvg {
+    display: none;
+}
+#translationcontents {
+    display: none;
+    width: 80%;
+}
+
+.toggle-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+button {
+    font-size: 24px;
+    width: 450px;
+    height: 40px;
+}
+
+.containercontents {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.horizontal-divs {
+    display: flex;
+    justify-content: center;
+    gap: 20px; /* 設置兩個 div 之間的間距 */
+}
+
+.horizontal-divs > div {
+    flex: 1;
+}
+
+.table-div {
+    margin-top: 20px; /* 設置表格與上方 div 的間距 */
+    width: 90%;
+}
+
+table {
+    border-spacing: 0;
+}
+th {
+    padding: 10px;
+}
+table tbody tr:nth-child(odd){
+    background-color: #eee
+}
+table tbody tr:last-child td:first-child {
+    border-radius: 0 0 0 5px;
+}
+table tbody tr:last-child td:last-child {
+    border-radius: 0 0 5px 0;
+}
+
+.tooltip {
+    position: absolute;
+    background-color: #ffffff;
+    border: 1px solid #cccccc;
+    padding: 10px;
+    border-radius: 5px;
+    pointer-events: none; /* 避免tooltip擋住其他事件 */
+    opacity: 0;
+}

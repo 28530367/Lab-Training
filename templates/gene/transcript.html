@@ -1,0 +1,35 @@
+{% extends 'gene/base.html' %}
+{% load static %}
+{% block title %} Transcrip ID {% endblock %}
+{% block style %}
+    <link rel="stylesheet" href="{% static 'css/transcript.css' %}">
+{% endblock %}
+{% block content %}
+<div class="container">
+    <div class="card mt-3">
+        <div class="card-header fs-5 fw-bold">
+            Transcrip ID
+        </div>
+        <div class="tooltip"></div>
+        <div class="toggle-container">
+            <button id="unsplicedbutton">unspliced</button><br>
+            <div id="unsplicedcontents"></div>
+            <div id="unsplicedsvg">
+                <svg id="unspliced-rectangles" width="900" height="100"></svg>
+            </div>
+        </div>
+        <div class="toggle-container">    
+            <button id="splicedbutton">spliced</button><br>
+            <div id="splicedcontents"></div>
+            <div id="splicedsvg">
+                <svg id="spliced-rectangles" width="900" height="100"></svg>
+            </div>
+        </div>
+        <div class="toggle-container"> 
+            <button id="translationbutton">amino sequence</button><br>
+            <div id="translationcontents"></div>
+        </div>
+    </div>
+</div>
+<script src="{% static 'js/transcript.js' %}"></script>
+{% endblock %}

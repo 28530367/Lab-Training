@@ -1,0 +1,38 @@
+{% extends 'stock/stockbase.html' %}
+{% load static %}
+{% block title %} stock {% endblock %}
+{% block style %}
+    <link rel="stylesheet" href="{% static 'css/home.css' %}">
+{% endblock %}
+{% block content %}
+<div class="container">
+    <div class="card mt-3">
+        <div class="card-header fs-5 fw-bold">
+            Stock
+        </div>
+        <div class='card-body'>
+            <form id="ajax_form">
+                <label for="stock" class="form-label">Stock:</label>
+                <input type="text" class="form-control" name="stock" placeholder="2330">
+                <br>
+                <label for="start">start:</label>
+                <input type="date" id="start" name="start">
+                <label for="end">end:</label>
+                <input type="date" id="end" name="end">
+            </form>
+            <hr>
+            <button class="btn btn-outline-primary" id="submit">送出</button>
+        </div>
+        <div id="message"></div>
+    </div>
+</div>
+
+<script src="https://code.highcharts.com/stock/highstock.js"></script>
+<script src="https://code.highcharts.com/stock/modules/data.js"></script>
+<script src="https://code.highcharts.com/stock/modules/drag-panes.js"></script>
+<script src="https://code.highcharts.com/stock/modules/exporting.js"></script>
+<script src="https://code.highcharts.com/stock/modules/accessibility.js"></script>
+
+<script src="{% static 'js/home.js' %}"></script>
+
+{% endblock %}

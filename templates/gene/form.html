@@ -1,0 +1,31 @@
+{% extends 'gene/base.html' %}
+{% load static %}
+{% block title %} Wormbase ID {% endblock %}
+{% block style %}
+    <link rel="stylesheet" href="{% static 'css/form.css' %}">
+{% endblock %}
+{% block content %}
+<div class="container">
+    <div class="card mt-3">
+        <div class="card-header fs-5 fw-bold">
+            Wormbase ID
+        </div>
+        <div class='card-body'>
+            <form id="ajax_form">
+                <label for="gene_id" class="form-label">Gene ID:</label>
+                <input type="text" class="form-control" name="gene_id" placeholder="eg. WBGene00000010">
+            </form>
+            <hr>
+            <button class="btn btn-outline-primary" id="submit">送出</button>
+        </div>
+        <table id="gene_id_table" class="table table-striped table-hover" style="width:100%"></table>
+        <table id="transcript_table" class="table table-striped table-hover" style="width:100%"></table>
+    </div>
+</div>
+
+<div id="loading-spinner" style="display: none;">
+    <h1 id="loading-text">loading...</h1>
+</div>
+
+<script src="{% static 'js/form.js' %}"></script>
+{% endblock %}

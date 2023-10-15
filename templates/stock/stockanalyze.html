@@ -1,0 +1,51 @@
+{% extends 'stock/stockbase.html' %}
+{% load static %}
+{% block title %} stock {% endblock %}
+{% block style %}
+    <link rel="stylesheet" href="{% static 'css/stockanalyze.css' %}">
+{% endblock %}
+{% block content %}
+<div class="container">
+    <div class="card mt-3">
+        <div class="card-header fs-5 fw-bold">
+            3.RSI黃金交叉策略
+        </div>
+        <div class='card-body'>
+            <form id="ajax_form">
+                <label for="stock" class="form-label">Stock:</label>
+                <input type="text" class="form-control" name="stock" placeholder="2330">
+                <br>
+                <label for="short">短期RSI(天數):</label>
+                <input type="text" id="short" name="short" placeholder="120">
+                <label for="long">長期RSI(天數):</label>
+                <input type="text" id="long" name="long" placeholder="150">
+                <label for="start">start:</label>
+                <input type="date" id="start" name="start">
+                <label for="end">end:</label>
+                <input type="date" id="end" name="end">
+            </form>
+            <hr>
+            <button class="btn btn-outline-primary" id="submit">送出</button>
+        </div>
+        <table id="tradetable" class="table table-hover" style="width:100%"></table>
+        <figure class="highcharts-figure">
+            <div id="Highchartscontainer"></div>
+        </figure>
+        <table id="table" class="table" style="width:100%"></table>
+    </div>
+</div>
+
+<script src="{% static 'js/stockanalyze.js' %}"></script>
+
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/modules/series-label.js"></script>
+<script src="https://code.highcharts.com/modules/exporting.js"></script>
+<script src="https://code.highcharts.com/modules/export-data.js"></script>
+<script src="https://code.highcharts.com/modules/accessibility.js"></script>
+
+
+<script>
+    // 動態生成靜態圖片路徑
+    var chartImagePath = "{% static 'image/chart.png' %}";
+</script>
+{% endblock %}

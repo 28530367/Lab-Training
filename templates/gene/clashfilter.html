@@ -1,0 +1,130 @@
+{% extends 'gene/base.html' %}
+{% load static %}
+{% block title %} clashfilter {% endblock %}
+{% block style %}
+    <link rel="stylesheet" href="{% static 'css/clashfilter.css' %}">
+{% endblock %}
+{% block content %}
+<div class="card mb-4 border-dark" style="border-top-left-radius: 0rem!important;">
+    <div class="card-body text-dark text-center">
+        <div class="card my-4">
+            <div class="card-header fs-5 fw-bold">
+                Identified piRNA target sites
+            </div>
+            <form id="ajax_form">
+                <div class="row align-items-center">
+                    <div class="col-4">
+                        gene
+                    </div>
+                    <div class="col-2">
+                        <textarea id="genelistInput" name="genelistInput" style="resize: none;" placeholder="enter gene(s) or not" rows="4"></textarea>
+                    </div>
+                </div>
+                <div class="row align-items-center">
+                    <div class="col-4">
+                        miRNA
+                    </div>
+                    <div class="col-2">
+                        <textarea id="miRNAlistInput" name="miRNAlistInput" style="resize: none;" placeholder="enter miRNA(s) or not" rows="4"></textarea>
+                    </div>
+                </div>
+                <div class="row align-items-center card-body">
+                    <div class="col-4">
+                        <label for="readcount">Read count</label>
+                    </div>
+                    <div class="col-2">
+                        <select name="readcount_mode" id="readcount_mode" style="width: 100px;">   
+                            <option value="1">&gt;</option> 
+                            <option value="2">&lt;</option>    
+                            <option value="3">=</option>
+                            <option value="4">None</option>
+                        </select>
+                    </div>
+                    <div class="col-2">
+                        <input type="number" id="readcount" name="readcount" value="10" min="0" max="1000" step="0.1">
+                    </div>
+                </div>
+                <div class="row align-items-center card-body">
+                    <div class="col-4">
+                        <label for="RNAup_min_energy"><span class="text-success">RNAup</span> binding energy with <span class="text-danger">minimum</span> extension</label><br>
+                    </div>
+                    <div class="col-2">
+                        <select name="RNAup_min_energy_mode" id="RNAup_min_energy_mode" style="width: 100px;">    
+                            <option value="2">&lt;</option> 
+                            <option value="1">&gt;</option>      
+                            <option value="3">=</option>
+                            <option value="4">None</option>
+                        </select>
+                    </div>
+                    <div class="col-2">
+                        <input type="number" id="RNAup_min_energy" name="RNAup_min_energy" value="-15" min="-100" max="0" step="0.1">
+                        <span>(kcal/mol)</span>
+                    </div>
+                </div>
+                <div class="row align-items-center card-body">
+                    <div class="col-4">
+                        <label for="miranda_min_energy"><span class="text-primary">miRanda</span> binding energy with <span class="text-danger">minimum</span> extension</label><br>
+                    </div>
+                    <div class="col-2">
+                        <select name="miranda_min_energy_mode" id="miranda_min_energy_mode" style="width: 100px;">    
+                            <option value="4">None</option>
+                            <option value="1">&gt;</option>    
+                            <option value="2">&lt;</option>    
+                            <option value="3">=</option>
+                        </select>
+                    </div>
+                    <div class="col-2">
+                        <input type="number" id="miranda_min_energy" name="miranda_min_energy" value="0" min="-100" max="0" step="0.1">
+                        <span>(kcal/mol)</span>
+                    </div>
+                </div>
+                <div class="row align-items-center card-body">
+                    <div class="col-4">
+                        <label for="RNAup_max_energy"><span class="text-success">RNAup</span> binding energy with <span class="text-warning">maximum</span> extension</label><br>
+                    </div>
+                    <div class="col-2">
+                        <select name="RNAup_max_energy_mode" id="RNAup_max_energy_mode" style="width: 100px;">    
+                            <option value="4">None</option>
+                            <option value="1">&gt;</option>    
+                            <option value="2">&lt;</option>    
+                            <option value="3">=</option>
+                        </select>
+                    </div>
+                    <div class="col-2">
+                        <input type="number" id="RNAup_max_energy" name="RNAup_max_energy" value="0" min="-100" max="0" step="0.1">
+                        <span>(kcal/mol)</span>
+                    </div>
+                </div>
+                <div class="row align-items-center card-body">
+                    <div class="col-4">
+                        <label for="miranda_max_energy"><span class="text-primary">miRanda</span> binding energy with <span class="text-warning">maximum</span> extension</label><br>
+                    </div>
+                    <div class="col-2">
+                        <select name="miranda_max_energy_mode" id="miranda_max_energy_mode" style="width: 100px;">    
+                            <option value="4">None</option>
+                            <option value="1">&gt;</option>    
+                            <option value="2">&lt;</option>    
+                            <option value="3">=</option>
+                        </select>
+                    </div>
+                    <div class="col-2">
+                        <input type="number" id="miranda_max_energy" name="miranda_max_energy" value="0" min="-100" max="0" step="0.1">
+                        <span>(kcal/mol)</span>
+                    </div>
+                </form>
+            </div>
+                <button class="btn btn-outline-primary" id="submit">送出</button>
+            </div>
+            <div class="card mt-3">
+                <div class="card-header fs-5 fw-bold">
+                    miRNA-mRNA interactions
+                </div>
+                    <table id="interactionstable" class="table table-hover" style="width:100%"></table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="{% static 'js/clashfilter.js' %}"></script>
+{% endblock %}

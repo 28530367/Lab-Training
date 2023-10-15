@@ -1,0 +1,31 @@
+{% extends 'gene/base.html' %}
+{% load static %}
+{% block title %} RNA Binding Site {% endblock %}
+{% block style %}
+    <link rel="stylesheet" href="{% static 'css/rna_binding_site.css' %}">
+{% endblock %}
+{% block content %}
+<div class="card mb-4 border-dark" style="border-top-left-radius: 0rem!important;">
+    <div class="card-body text-dark text-center">
+        <div class="card my-4">
+            <div class="card mt-3">
+                <div class="card-header fs-5 fw-bold">
+                    miRNA-mRNA interactions
+                </div>
+                <div>
+                    <table id="interactionstable" class="table table-hover" style="width:100%"></table>
+                </div>
+                <div class="card-header fs-5 fw-bold">
+                    Interactions Detail
+                </div>
+                <div class="tooltip"></div>
+                <div id="svg">
+                    <svg id="miranda_svg"></svg>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="{% static 'js/rna_binding_site.js' %}"></script>
+{% endblock %}

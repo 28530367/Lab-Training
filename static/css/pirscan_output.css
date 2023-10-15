@@ -1,0 +1,45 @@
+td {
+    white-space: nowrap;
+}
+
+.text-dark {
+    color: #343a40!important;
+}
+
+.text-center {
+    text-align: center!important;
+}
+
+mark {
+    background-color: yellow;
+    padding: 0em;
+}
+
+#L {
+    color: red;
+    font-family: Arial;
+}
+
+#detail {
+    text-align: center;
+    font-family: Lucida Console;
+    font-size: 15pt;
+}
+
+#b {
+    background-color: lightblue;
+}
+
+#g {
+    background-color: lightgreen;
+}
+
+.tooltip {
+    position: absolute;
+    background-color: #ffffff;
+    border: 1px solid #cccccc;
+    padding: 10px;
+    border-radius: 5px;
+    pointer-events: none; /* 避免tooltip擋住其他事件 */
+    opacity: 0;
+}

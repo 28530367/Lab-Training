@@ -454,6 +454,8 @@ def ajax_clashfilter(request):
 
     output_data = df_output_data.to_dict(orient="records")
 
+    print(output_data)
+
     response = {
         'output_data': output_data,
     }

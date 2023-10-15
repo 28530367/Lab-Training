@@ -388,7 +388,7 @@ def ajax_clashfilter(request):
     else:
         df_output_data = df_clashfilter
     
-
+    
     def get_row(dataframe, column, mode, value):
 
         if mode == 1:

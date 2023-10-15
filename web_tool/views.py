@@ -526,6 +526,8 @@ def ajax_rna_binding_site(request):
 
     output_data_sorted = df_output_data_sorted.to_dict(orient="records")
 
+    print(df_output_data)
+
     response = {
         "output_data_sorted": output_data_sorted,
         "gene_sequence_svgdata": gene_sequence_svgdata,

@@ -12,5 +12,5 @@ urlpatterns = [
     path('ajax_clashfilter/', views.ajax_clashfilter),
     path('rna_binding_site/', views.rna_binding_site),
     path('ajax_rna_binding_site/', views.ajax_rna_binding_site),
-    
+    path('ajax_rna_binding_site_search/', views.ajax_rna_binding_site_search),
 ]

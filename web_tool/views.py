@@ -454,7 +454,7 @@ def ajax_clashfilter(request):
 
     output_data = df_output_data.to_dict(orient="records")
 
-    print(output_data)
+    # print(output_data)
 
     response = {
         'output_data': output_data,
@@ -477,6 +477,94 @@ def ajax_rna_binding_site(request):
     gene_sequence_svgdata, gene_sequence_svgcolorindex = utr_cds_ranges(spliced_sequence)
     
     df_output_data = df_clashfilter[df_clashfilter['targetrnaname'].isin(transcrip_id)]
+
+    def RNAup_regulator_sequence(df, column1, column2):
+        df[column1] = df[column1].apply(lambda x: x.replace('T', 'U'))
+        df[column2] = df[column2].apply(lambda x: x.replace('T', 'U'))
+
+        for index, row in df.iterrows():
+            first_sequence = row[column1]
+            second_sequence = row[column2]
+            
+            new_target_sequence = ""
+            new_regulator_sequence = ""
+            
+            for char1, char2 in zip(first_sequence, second_sequence):
+                if (char1 == 'G' and char2 == 'U') or (char1 == 'U' and char2 == 'G'):
+                    new_target_sequence += "<mark id='b'>" + char2 + "</mark>"
+                    new_regulator_sequence += char1
+                elif (char1 == 'A' and char2 == 'U') or (char1 == 'U' and char2 == 'A') or (char1 == 'C' and char2 == 'G') or (char1 == 'G' and char2 == 'U') or (char1 == '-' and char2 == '-'):
+                    new_target_sequence += char2
+                    new_regulator_sequence += char1
+                elif char1 == '-':
+                    new_target_sequence += "<mark id='g'>" + char2 + "</mark>"
+                    new_regulator_sequence += "<span class='dash'>" + char1 + "</span>"
+                elif char2 == '-':
+                    new_target_sequence += "<span class='dash'>" + char2 + "</span>"
+                    new_regulator_sequence += "<mark id='g'>" + char1 + "</mark>"
+                else:
+                    new_target_sequence += "<mark id='y'>" + char2 + "</mark>"
+                    new_regulator_sequence += char1
+
+            df.at[index, column1] = new_regulator_sequence
+            df.at[index, column2] = new_target_sequence
+            
+        df[column1][df[column1] != '-'] = "5' " + df[column1][df[column1] != '-'] + " 3'"
+        df[column2][df[column2] != '-'] = "3' " + df[column2][df[column2] != '-'] + " 5'"
+
+        df[column1] = df.apply(lambda row: f"{row[column1]}<br>{row[column2]}", axis=1)
+
+        return df
+
+    df_output_data = RNAup_regulator_sequence(df_output_data, 'rnaupmaxregulatorsequence', 'rnaupmaxtargetsequence')
+    df_output_data = RNAup_regulator_sequence(df_output_data, 'rnaupregulatorsequence', 'rnauptargetsequence')
+    df_output_data = RNAup_regulator_sequence(df_output_data, 'mirandaregulatorsequence', 'mirandatargetsequence')
+    df_output_data = RNAup_regulator_sequence(df_output_data, 'mirandamaxregulatorsequence', 'mirandamaxtargetsequence')
+
+    df_output_data["targetrnaregionfoundinclashread"] = df_output_data["targetrnaregionfoundinclashread"].apply(lambda x: [int(val) for val in x.split('-')]) 
+    df_output_data_sorted = df_output_data.sort_values(by="targetrnaregionfoundinclashread", key=lambda x: x.str[0])
+
+    miranda_svgdata = df_output_data_sorted["targetrnaregionfoundinclashread"].tolist()
+
+    miranda_svgdata_index = pirna_svgdata_index_fuction(miranda_svgdata)
+
+    df_output_data_sorted["targetrnaregionfoundinclashread"] = df_output_data_sorted["targetrnaregionfoundinclashread"].apply(lambda lst: f"{lst[0]}-{lst[1]}")
+
+    output_data_sorted = df_output_data_sorted.to_dict(orient="records")
+
+    miRNA = df_output_data_sorted['smallrnaname']
+    miRNA = miRNA.drop_duplicates()
+    miRNA = miRNA.tolist()
+
+    print(miRNA)
+    response = {
+        "output_data_sorted": output_data_sorted,
+        "gene_sequence_svgdata": gene_sequence_svgdata,
+        "gene_sequence_svgcolorindex": gene_sequence_svgcolorindex,
+        "miranda_svgdata": miranda_svgdata,
+        "miranda_svgdata_index": miranda_svgdata_index,
+        "miRNA": miRNA,
+    }
+
+    return JsonResponse(response)
+
+def ajax_rna_binding_site_search(request):
+
+    sql_clashfilter = models.Clashfilter.objects.all()
+    df_clashfilter = pd.DataFrame(list(sql_clashfilter.values()))
+
+    transcrip_id = [request.GET.get('text', '')]
+    selectedValues = request.GET.get('selected', '')
+    selectedValues = selectedValues.split(', ')
+    print(selectedValues)
+
+    df_unspliced_features, unspliced_sequence, df_spliced_features, spliced_sequence, translation_sequence = wormbase_crawler(transcrip_id[0])
+
+    gene_sequence_svgdata, gene_sequence_svgcolorindex = utr_cds_ranges(spliced_sequence)
+    
+    df_output_data = df_clashfilter[df_clashfilter['targetrnaname'].isin(transcrip_id)]
+    if selectedValues:
+        df_output_data = df_output_data[df_output_data['smallrnaname'].isin(selectedValues)]
 
     def RNAup_regulator_sequence(df, column1, column2):
         df[column1] = df[column1].apply(lambda x: x.replace('T', 'U'))
